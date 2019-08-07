@@ -24,9 +24,12 @@ export default (fileBefore, fileAfter) => {
     fileBeforeKeysInFileAfter,
   );
   const comparison = Object.keys(definedDifferenceObj).reduce(
-    (acc, key) => [...acc, `\t${key}: ${definedDifferenceObj[key]}`],
+    (acc, key) => (key[0] === '+' || key[0] === '-'
+      ? [...acc, `  ${key}: ${definedDifferenceObj[key]}`]
+      : [...acc, `    ${key}: ${definedDifferenceObj[key]}`]),
     [],
   ).join('\n');
   const result = `{\n${comparison}\n}`;
+  console.log(result);
   return result;
 };
