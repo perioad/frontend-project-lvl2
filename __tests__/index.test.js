@@ -10,6 +10,5 @@ const result = `{
 }`;
 
 test('flat files compare', () => {
-  console.log(genDiff('__tests__/__fixtures__/before.json', '__tests__/__fixtures__/after.json'));
-  expect(genDiff('__tests__/__fixtures__/before.json', '__tests__/__fixtures__/after.json')).toBe(result);
+  expect(genDiff(`${__dirname}/__fixtures__/before.json`, `${__dirname}/__fixtures__/after.json`)).toBe(result);
 });
