@@ -1,4 +1,4 @@
-import genDiff from '.';
+import genDiff from './genDiff';
 
 const program = require('commander');
 
