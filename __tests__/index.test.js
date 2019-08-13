@@ -1,22 +1,33 @@
 import genDiff from '../src';
 
-const result = `{
-    host: hexlet.io
-  + timeout: 20
-  - timeout: 50
-  - proxy: 123.234.53.22
-  - follow: false
-  + verbose: true
-}`;
+const path = require('path');
+const fs = require('fs');
 
-test('flat files compare json', () => {
-  expect(genDiff(`${__dirname}/__fixtures__/before.json`, `${__dirname}/__fixtures__/after.json`)).toBe(result);
-});
+const pathToFixtures = `${__dirname}/__fixtures__/`;
 
-test('flat files compare yml', () => {
-  expect(genDiff(`${__dirname}/__fixtures__/before.yml`, `${__dirname}/__fixtures__/after.yml`)).toBe(result);
-});
+const expectFlat = fs.readFileSync(path.resolve(`${pathToFixtures}testFlat.txt`), 'utf-8');
 
-test('flat files compare json and yml', () => {
-  expect(genDiff(`${__dirname}/__fixtures__/before.json`, `${__dirname}/__fixtures__/after.yml`)).toBe(result);
-});
+const testTable = [
+  [
+    `${pathToFixtures}before.json`,
+    `${pathToFixtures}after.json`,
+    expectFlat,
+  ],
+  [
+    `${pathToFixtures}before.yml`,
+    `${pathToFixtures}after.yml`,
+    expectFlat,
+  ],
+  [
+    `${pathToFixtures}before.ini`,
+    `${pathToFixtures}after.ini`,
+    expectFlat,
+  ],
+];
+
+test.each(testTable)(
+  'test',
+  (a, b, expected) => {
+    expect(genDiff(a, b)).toBe(expected);
+  },
+);

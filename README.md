@@ -5,8 +5,14 @@
 make publish
 npm link
 ```
-<a href="https://asciinema.org/a/NapTqGIwUi0Y7tdNQVt97m77X" target="_blank"><img src="https://asciinema.org/a/NapTqGIwUi0Y7tdNQVt97m77X.svg" /></a>
+### comparison .json flat files
 
-### flat comparison .json and .yml
+<a href="https://asciinema.org/a/262195" target="_blank"><img src="https://asciinema.org/a/262195.svg" /></a>
 
-<a href="https://asciinema.org/a/262160" target="_blank"><img src="https://asciinema.org/a/262160.svg" /></a>
+### flat comparison .yml flat files
+
+<a href="https://asciinema.org/a/262196" target="_blank"><img src="https://asciinema.org/a/262196.svg" /></a>
+
+### flat comparison .ini flat files
+
+<a href="https://asciinema.org/a/262199" target="_blank"><img src="https://asciinema.org/a/262199.svg" /></a>
