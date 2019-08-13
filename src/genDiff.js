@@ -1,15 +1,11 @@
 import _ from 'lodash';
+import chooseFormat from './chooseFormat';
 
-const path = require('path');
-const fs = require('fs');
-
-export default (fileBefore, fileAfter) => {
-  const pathToFileBefore = path.resolve(fileBefore);
-  const pathToFileAfter = path.resolve(fileAfter);
-  const fileBeforeOpened = fs.readFileSync(pathToFileBefore);
-  const fileAfterOpened = fs.readFileSync(pathToFileAfter);
-  const fileBeforeOpenedObject = JSON.parse(fileBeforeOpened);
-  const fileAfterOpenedObject = JSON.parse(fileAfterOpened);
+export default (fileBeforeName, fileAfterName) => {
+  const fileBefore = chooseFormat(fileBeforeName);
+  const fileAfter = chooseFormat(fileAfterName);
+  const fileBeforeOpenedObject = fileBefore.parse();
+  const fileAfterOpenedObject = fileAfter.parse();
   const fileBeforeKeysInFileAfter = Object.keys(fileBeforeOpenedObject).reduce((acc, key) => {
     if (_.has(fileAfterOpenedObject, key)) {
       if (fileBeforeOpenedObject[key] === fileAfterOpenedObject[key]) {
@@ -30,5 +26,6 @@ export default (fileBefore, fileAfter) => {
     [],
   ).join('\n');
   const result = `{\n${comparison}\n}`;
+  console.log(result);
   return result;
 };

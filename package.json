@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "my second project on hexlet.io",
   "bin": {
-    "gendiff": "dist/bin/gendiff.js"
+    "gendiff": "dist/bin/gendiff.js",
+    "somesay": "dist/bin/myowntest.js"
   },
   "files": [
     "dist"
@@ -42,6 +43,7 @@
   },
   "dependencies": {
     "commander": "^2.20.0",
+    "js-yaml": "^3.13.1",
     "lodash": "^4.17.15"
   }
 }

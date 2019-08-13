@@ -6,3 +6,7 @@ make publish
 npm link
 ```
 <a href="https://asciinema.org/a/NapTqGIwUi0Y7tdNQVt97m77X" target="_blank"><img src="https://asciinema.org/a/NapTqGIwUi0Y7tdNQVt97m77X.svg" /></a>
+
+### flat comparison .json and .yml
+
+<a href="https://asciinema.org/a/262160" target="_blank"><img src="https://asciinema.org/a/262160.svg" /></a>
