@@ -4,7 +4,7 @@
   "description": "my second project on hexlet.io",
   "bin": {
     "gendiff": "dist/bin/gendiff.js",
-    "somesay": "dist/bin/myowntest.js"
+    "go": "dist/bin/myowntest.js"
   },
   "files": [
     "dist"

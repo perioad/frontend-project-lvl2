@@ -1,4 +1,12 @@
 node_modules/
+myowntest.js
 dist
 coverage
 .DS_Store
+*copy*
+after.json
+after.yml
+after.ini
+before.json
+before.yml
+before.ini

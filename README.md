@@ -9,10 +9,22 @@ npm link
 
 <a href="https://asciinema.org/a/262195" target="_blank"><img src="https://asciinema.org/a/262195.svg" /></a>
 
-### flat comparison .yml flat files
+### comparison .yml flat files
 
 <a href="https://asciinema.org/a/262196" target="_blank"><img src="https://asciinema.org/a/262196.svg" /></a>
 
-### flat comparison .ini flat files
+### comparison .ini flat files
 
 <a href="https://asciinema.org/a/262199" target="_blank"><img src="https://asciinema.org/a/262199.svg" /></a>
+
+### comparison .json nested files
+
+<a href="https://asciinema.org/a/264662" target="_blank"><img src="https://asciinema.org/a/264662.svg" /></a>
+
+### comparison .yml nested files
+
+<a href="https://asciinema.org/a/264663" target="_blank"><img src="https://asciinema.org/a/264663.svg" /></a>
+
+### comparison .ini nested files
+
+<a href="https://asciinema.org/a/264664" target="_blank"><img src="https://asciinema.org/a/264664.svg" /></a>
