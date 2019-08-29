@@ -28,3 +28,7 @@ npm link
 ### comparison .ini nested files
 
 <a href="https://asciinema.org/a/264664" target="_blank"><img src="https://asciinema.org/a/264664.svg" /></a>
+
+### plain render format
+
+<a href="https://asciinema.org/a/264930" target="_blank"><img src="https://asciinema.org/a/264930.svg" /></a>

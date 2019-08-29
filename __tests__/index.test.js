@@ -5,42 +5,25 @@ const fs = require('fs');
 
 const pathToFixtures = `${__dirname}/__fixtures__/`;
 
-const expectFlat = fs.readFileSync(path.resolve(`${pathToFixtures}testFlat.txt`), 'utf-8');
-const expectTree = fs.readFileSync(path.resolve(`${pathToFixtures}testTree.txt`), 'utf-8');
+const expectedFlat = fs.readFileSync(path.resolve(`${pathToFixtures}testFlat.txt`), 'utf-8');
+const expectedNested = fs.readFileSync(path.resolve(`${pathToFixtures}testNested.txt`), 'utf-8');
+const expectedPlainFormat = fs.readFileSync(path.resolve(`${pathToFixtures}testPlainFormat.txt`), 'utf-8');
 
 const testTableFlat = [
   [
     `${pathToFixtures}before.json`,
     `${pathToFixtures}after.json`,
-    expectFlat,
+    expectedFlat,
   ],
   [
     `${pathToFixtures}before.yml`,
     `${pathToFixtures}after.yml`,
-    expectFlat,
+    expectedFlat,
   ],
   [
     `${pathToFixtures}before.ini`,
     `${pathToFixtures}after.ini`,
-    expectFlat,
-  ],
-];
-
-const testTableTree = [
-  [
-    `${pathToFixtures}beforeTree.json`,
-    `${pathToFixtures}afterTree.json`,
-    expectTree,
-  ],
-  [
-    `${pathToFixtures}beforeTree.yml`,
-    `${pathToFixtures}afterTree.yml`,
-    expectTree,
-  ],
-  [
-    `${pathToFixtures}beforeTree.ini`,
-    `${pathToFixtures}afterTree.ini`,
-    expectTree,
+    expectedFlat,
   ],
 ];
 
@@ -51,9 +34,42 @@ test.each(testTableFlat)(
   },
 );
 
-test.each(testTableTree)(
-  'testTree %#',
+const testTableNested = [
+  [
+    `${pathToFixtures}beforeTree.json`,
+    `${pathToFixtures}afterTree.json`,
+    expectedNested,
+  ],
+  [
+    `${pathToFixtures}beforeTree.yml`,
+    `${pathToFixtures}afterTree.yml`,
+    expectedNested,
+  ],
+  [
+    `${pathToFixtures}beforeTree.ini`,
+    `${pathToFixtures}afterTree.ini`,
+    expectedNested,
+  ],
+];
+
+test.each(testTableNested)(
+  'testNested %#',
   (a, b, expected) => {
     expect(genDiff(a, b)).toBe(expected);
+  },
+);
+
+const testTablePlainFormat = [
+  [
+    `${pathToFixtures}beforeTree.json`,
+    `${pathToFixtures}afterTree.json`,
+    expectedPlainFormat,
+  ],
+];
+
+test.each(testTablePlainFormat)(
+  'testPlainFormat %#',
+  (a, b, expected) => {
+    expect(genDiff(a, b, 'plain')).toBe(expected);
   },
 );
