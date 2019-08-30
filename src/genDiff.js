@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import parse from './parse';
 import plain from './formatters/plainFormat';
+import json from './formatters/jsonFormat';
 import stringify from './utils/stringify';
 
 const makeAST = (fileBefore, fileAfter) => {
@@ -64,6 +65,7 @@ const render = ast => `{\n${renderWithoutCurlyBraces(ast)}\n}`;
 const renders = {
   undefined: render,
   plain,
+  json,
 };
 
 export default (fileBefore, fileAfter, format) => {

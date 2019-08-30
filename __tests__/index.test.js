@@ -1,4 +1,4 @@
-import genDiff from '../src';
+import genDiff from '../src/index';
 
 const path = require('path');
 const fs = require('fs');
@@ -8,6 +8,7 @@ const pathToFixtures = `${__dirname}/__fixtures__/`;
 const expectedFlat = fs.readFileSync(path.resolve(`${pathToFixtures}testFlat.txt`), 'utf-8');
 const expectedNested = fs.readFileSync(path.resolve(`${pathToFixtures}testNested.txt`), 'utf-8');
 const expectedPlainFormat = fs.readFileSync(path.resolve(`${pathToFixtures}testPlainFormat.txt`), 'utf-8');
+const expectedJsonFormat = fs.readFileSync(path.resolve(`${pathToFixtures}testJsonFormat.txt`), 'utf-8');
 
 const testTableFlat = [
   [
@@ -65,11 +66,36 @@ const testTablePlainFormat = [
     `${pathToFixtures}afterTree.json`,
     expectedPlainFormat,
   ],
+  [
+    `${pathToFixtures}beforeTree.yml`,
+    `${pathToFixtures}afterTree.yml`,
+    expectedPlainFormat,
+  ],
+  [
+    `${pathToFixtures}beforeTree.ini`,
+    `${pathToFixtures}afterTree.ini`,
+    expectedPlainFormat,
+  ],
 ];
 
 test.each(testTablePlainFormat)(
   'testPlainFormat %#',
   (a, b, expected) => {
     expect(genDiff(a, b, 'plain')).toBe(expected);
+  },
+);
+
+const testTableJsonFormat = [
+  [
+    `${pathToFixtures}beforeTree.json`,
+    `${pathToFixtures}afterTree.json`,
+    expectedJsonFormat,
+  ],
+];
+
+test.each(testTableJsonFormat)(
+  'testJsonFormat %#',
+  (a, b, expected) => {
+    expect(genDiff(a, b, 'json')).toBe(expected);
   },
 );

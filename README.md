@@ -32,3 +32,7 @@ npm link
 ### plain render format
 
 <a href="https://asciinema.org/a/264930" target="_blank"><img src="https://asciinema.org/a/264930.svg" /></a>
+
+### json render format
+
+<a href="https://asciinema.org/a/265143" target="_blank"><img src="https://asciinema.org/a/265143.svg" /></a>
