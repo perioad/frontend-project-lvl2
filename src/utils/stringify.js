@@ -1,25 +1,16 @@
-export default (value, indent) => {
-  const string = JSON.stringify(value);
-  const lastIndex = string.length - 1;
-  if (typeof value === 'string') {
-    return string.slice(1, lastIndex);
-  }
-  if (value instanceof Object) {
-    const iter = (iterString) => {
-      if (iterString.length === 0) {
-        return '';
-      }
-      const firstIndex = 0;
-      const currentChar = iterString[firstIndex];
-      if (currentChar === '{' || currentChar === '}' || currentChar === '"') {
-        return `${iter(iterString.slice(1))}`;
-      }
-      if (currentChar === ':') {
-        return `${currentChar} ${iter(iterString.slice(1))}`;
-      }
-      return `${currentChar}${iter(iterString.slice(1))}`;
-    };
-    return `{\n      ${indent}${iter(string)}\n${indent}  }`;
-  }
-  return string;
+import _ from 'lodash';
+
+const stringTypes = {
+  object: (obj, indent) => {
+    const oneSpace = ' ';
+    const levelUppedIndent = `${indent}${oneSpace.repeat(4)}`;
+    const pairsKeyAndValue = _.toPairs(obj);
+    const toString = pairsKeyAndValue.map(([key, value]) => `${key}: ${value}`).join('\n');
+    return `{\n${levelUppedIndent}${toString}\n${indent}}`;
+  },
+  string: value => value,
+  number: value => `${value}`,
+  boolean: value => value,
 };
+
+export default (value, indent) => stringTypes[typeof value](value, indent);
