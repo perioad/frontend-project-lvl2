@@ -7,7 +7,7 @@ const stringTypes = {
     return `{${toString}}`;
   },
   string: value => `"${value}"`,
-  number: value => value,
+  number: value => `"${value}"`,
   boolean: value => value,
 };
 

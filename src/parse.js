@@ -1,11 +1,9 @@
 import { parseJson, parseYaml, parseIni } from './parsers';
 
-const path = require('path');
-
 const formats = {
-  '.json': f => parseJson(f),
-  '.yml': f => parseYaml(f),
-  '.ini': f => parseIni(f),
+  '.json': content => parseJson(content),
+  '.yml': content => parseYaml(content),
+  '.ini': content => parseIni(content),
 };
 
-export default fileName => formats[path.extname(fileName)](fileName);
+export default (format, content) => formats[format](content);

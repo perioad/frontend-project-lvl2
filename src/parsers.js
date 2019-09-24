@@ -1,10 +1,8 @@
-import readFile from './utils/readFile';
+import yaml from 'js-yaml';
+import ini from 'ini';
 
-const yaml = require('js-yaml');
-const ini = require('ini');
+export const parseJson = content => JSON.parse(content);
 
-export const parseJson = fileName => JSON.parse(readFile(fileName), 'utf-8');
+export const parseYaml = content => yaml.safeLoad(content);
 
-export const parseYaml = fileName => yaml.safeLoad(readFile(fileName), 'utf-8');
-
-export const parseIni = fileName => ini.parse(readFile(fileName), 'utf-8');
+export const parseIni = content => ini.parse(content);
