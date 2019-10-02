@@ -1,8 +1,10 @@
 import yaml from 'js-yaml';
 import ini from 'ini';
 
-export const parseJson = content => JSON.parse(content);
+const formats = {
+  '.json': content => JSON.parse(content),
+  '.yml': content => yaml.safeLoad(content),
+  '.ini': content => ini.parse(content),
+};
 
-export const parseYaml = content => yaml.safeLoad(content);
-
-export const parseIni = content => ini.parse(content);
+export default (format, content) => formats[format](content);

@@ -14,7 +14,7 @@ const keysTypes = [
       && _.has(contentAfter, key)
       && contentBefore[key] === contentAfter[key]
     ),
-    type: 'without changes',
+    type: 'identic',
     process: (valueBefore, valueAfter) => valueAfter,
   },
   {
@@ -23,7 +23,7 @@ const keysTypes = [
       && _.has(contentAfter, key)
       && contentBefore[key] !== contentAfter[key]
     ),
-    type: 'key changed',
+    type: 'changed',
     process: (valueBefore, valueAfter) => (
       { old: valueBefore, new: valueAfter }
     ),
@@ -33,7 +33,7 @@ const keysTypes = [
       _.has(contentBefore, key)
       && !_.has(contentAfter, key)
     ),
-    type: 'key deleted',
+    type: 'deleted',
     process: valueBefore => valueBefore,
   },
   {
@@ -41,7 +41,7 @@ const keysTypes = [
       !_.has(contentBefore, key)
       && _.has(contentAfter, key)
     ),
-    type: 'key added',
+    type: 'added',
     process: (valueBefore, valueAfter) => valueAfter,
   },
 ];

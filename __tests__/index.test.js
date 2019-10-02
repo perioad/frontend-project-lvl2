@@ -1,53 +1,17 @@
+import fs from 'fs';
 import genDiff from '../src';
-import readFile from '../src/utils/readFile';
 
-const pathToFixtures = `${__dirname}/__fixtures__/`;
-
-const expectedNested = readFile(`${pathToFixtures}testNested.txt`);
-const expectedPlain = readFile(`${pathToFixtures}testPlain.txt`);
-const expectedJson = readFile(`${pathToFixtures}testJson.txt`);
-
-const expectedFormats = {
-  nested: expectedNested,
-  plain: expectedPlain,
-  json: expectedJson,
-};
-
-const testTable = [
-  [
-    `${pathToFixtures}before.json`,
-    `${pathToFixtures}after.json`,
-    expectedFormats,
-  ],
-  [
-    `${pathToFixtures}before.yml`,
-    `${pathToFixtures}after.yml`,
-    expectedFormats,
-  ],
-  [
-    `${pathToFixtures}before.ini`,
-    `${pathToFixtures}after.ini`,
-    expectedFormats,
-  ],
-];
-
-test.each(testTable)(
-  'testNested %#',
-  (a, b, expected) => {
-    expect(genDiff(a, b)).toBe(expected.nested);
-  },
-);
-
-test.each(testTable)(
-  'testPlainFormat %#',
-  (a, b, expected) => {
-    expect(genDiff(a, b, 'plain')).toBe(expected.plain);
-  },
-);
-
-test.each(testTable)(
-  'testJsonFormat %#',
-  (a, b, expected) => {
-    expect(genDiff(a, b, 'json')).toBe(expected.json);
+test.each([
+  ['json', '', 'testNested.txt'], ['yml', '', 'testNested.txt'], ['ini', '', 'testNested.txt'],
+  ['json', 'plain', 'testPlain.txt'], ['yml', 'plain', 'testPlain.txt'], ['ini', 'plain', 'testPlain.txt'],
+  ['json', 'json', 'testJson.txt'], ['yml', 'json', 'testJson.txt'], ['ini', 'json', 'testJson.txt'],
+])(
+  'test %#',
+  (formatOfFile, formatOfRender, expected) => {
+    const pathToFixtures = `${__dirname}/__fixtures__/`;
+    const pathFileBefore = `${pathToFixtures}before.${formatOfFile}`;
+    const pathFileAfter = `${pathToFixtures}after.${formatOfFile}`;
+    const shouldBe = fs.readFileSync(`${pathToFixtures}${expected}`, 'utf-8');
+    expect(genDiff(pathFileBefore, pathFileAfter, formatOfRender)).toBe(shouldBe);
   },
 );

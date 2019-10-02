@@ -15,19 +15,19 @@ const keysTypes = [
     makeString: (children, name, path, func) => `${func(children, path)}`,
   },
   {
-    check: type => type === 'key changed',
+    check: type => type === 'changed',
     makeString: (value, name, path) => `Property '${path.join('.')}' was updated. From ${toProperView(value.old)} to ${toProperView(value.new)}`,
   },
   {
-    check: type => type === 'key deleted',
+    check: type => type === 'deleted',
     makeString: (value, name, path) => `Property '${path.join('.')}' was removed`,
   },
   {
-    check: type => type === 'key added',
+    check: type => type === 'added',
     makeString: (value, name, path) => `Property '${path.join('.')}' was added with value: ${toProperView(value)}`,
   },
   {
-    check: type => type === 'without changes',
+    check: type => type === 'identic',
     makeString: () => '',
   },
 ];

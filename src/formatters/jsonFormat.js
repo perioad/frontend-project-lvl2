@@ -19,19 +19,19 @@ const keysTypes = [
     makeString: (children, name, type, func) => `"${name}": ${func(children)}`,
   },
   {
-    check: type => type === 'without changes',
+    check: type => type === 'identic',
     makeString: (value, name, type) => `"${name}": {"type": "${type}", "value": ${stringify(value)}}`,
   },
   {
-    check: type => type === 'key changed',
+    check: type => type === 'changed',
     makeString: (value, name, type) => `"${name}": {"type": "${type}", "value": ${stringify(value.new)}, "valuePrevious": ${stringify(value.old)}}`,
   },
   {
-    check: type => type === 'key deleted',
+    check: type => type === 'deleted',
     makeString: (value, name, type) => `"${name}": {"type": "${type}", "value": ${stringify(value)}}`,
   },
   {
-    check: type => type === 'key added',
+    check: type => type === 'added',
     makeString: (value, name, type) => `"${name}": {"type": "${type}", "value": ${stringify(value)}}`,
   },
 ];

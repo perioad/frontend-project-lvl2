@@ -1,4 +1,4 @@
-import stringify from './utils/stringify';
+import stringify from '../utils/stringify';
 
 const keysTypes = [
   {
@@ -6,19 +6,19 @@ const keysTypes = [
     makeString: (children, name, indent, func) => `${indent}${name}: ${func(children, indent)}`,
   },
   {
-    check: type => type === 'without changes',
+    check: type => type === 'identic',
     makeString: (value, name, indent) => `${indent}${name}: ${stringify(value, indent)}`,
   },
   {
-    check: type => type === 'key changed',
+    check: type => type === 'changed',
     makeString: (value, name, indent) => `${indent.slice(2)}+ ${name}: ${stringify(value.new, indent)}\n${indent.slice(2)}- ${name}: ${stringify(value.old, indent)}`,
   },
   {
-    check: type => type === 'key deleted',
+    check: type => type === 'deleted',
     makeString: (value, name, indent) => `${indent.slice(2)}- ${name}: ${stringify(value, indent)}`,
   },
   {
-    check: type => type === 'key added',
+    check: type => type === 'added',
     makeString: (value, name, indent) => `${indent.slice(2)}+ ${name}: ${stringify(value, indent)}`,
   },
 ];
