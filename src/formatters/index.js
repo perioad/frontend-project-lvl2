@@ -1,4 +1,4 @@
-import standart from './standartFormat';
+import nested from './nestedFormat';
 import plain from './plainFormat';
 import json from './jsonFormat';
 
@@ -7,4 +7,4 @@ const renders = {
   json,
 };
 
-export default (ast, format) => (format ? renders[format](ast) : standart(ast));
+export default (ast, format) => (format ? renders[format](ast) : nested(ast));

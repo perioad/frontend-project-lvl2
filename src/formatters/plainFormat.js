@@ -9,40 +9,32 @@ const toProperView = (value) => {
   return valueTypes[typeof value];
 };
 
-const keysTypes = [
-  {
-    check: type => type === 'nested',
-    makeString: (children, name, path, func) => `${func(children, path)}`,
-  },
-  {
-    check: type => type === 'changed',
-    makeString: (value, name, path) => `Property '${path.join('.')}' was updated. From ${toProperView(value.old)} to ${toProperView(value.new)}`,
-  },
-  {
-    check: type => type === 'deleted',
-    makeString: (value, name, path) => `Property '${path.join('.')}' was removed`,
-  },
-  {
-    check: type => type === 'added',
-    makeString: (value, name, path) => `Property '${path.join('.')}' was added with value: ${toProperView(value)}`,
-  },
-  {
-    check: type => type === 'identic',
-    makeString: () => '',
-  },
-];
+const keysTypes = {
 
-const getStringMaker = type => keysTypes.find(({ check }) => check(type));
+  nested: (children, name, path, func) => `${func(children, path)}`,
+
+  changed: (value, name, path, func, valuePrevious) => (
+    `Property '${path.join('.')}' was updated. From ${toProperView(valuePrevious)} to ${toProperView(value)}`
+  ),
+
+  deleted: (value, name, path) => `Property '${path.join('.')}' was removed`,
+
+  added: (value, name, path) => `Property '${path.join('.')}' was added with value: ${toProperView(value)}`,
+
+  same: () => '',
+
+};
+
 
 const plainFormat = (data, path = '') => data.map((key) => {
   const {
     name,
     type,
     value,
+    valuePrevious,
   } = key;
   const currentPath = [...path, name];
-  const { makeString } = getStringMaker(type);
-  const string = makeString(value, name, currentPath, plainFormat);
+  const string = keysTypes[type](value, name, currentPath, plainFormat, valuePrevious);
   return string;
 }).filter(string => string !== '').join('\n');
 

@@ -6,7 +6,7 @@ const keysTypes = [
       contentBefore[key] instanceof Object && contentAfter[key] instanceof Object
     ),
     type: 'nested',
-    process: (valueBefore, valueAfter, func) => func(valueBefore, valueAfter),
+    process: (childrenBefore, childrenAfter, func) => func(childrenBefore, childrenAfter),
   },
   {
     check: (contentBefore, contentAfter, key) => (
@@ -14,7 +14,7 @@ const keysTypes = [
       && _.has(contentAfter, key)
       && contentBefore[key] === contentAfter[key]
     ),
-    type: 'identic',
+    type: 'same',
     process: (valueBefore, valueAfter) => valueAfter,
   },
   {
@@ -24,9 +24,7 @@ const keysTypes = [
       && contentBefore[key] !== contentAfter[key]
     ),
     type: 'changed',
-    process: (valueBefore, valueAfter) => (
-      { old: valueBefore, new: valueAfter }
-    ),
+    process: (valueBefore, valueAfter) => valueAfter,
   },
   {
     check: (contentBefore, contentAfter, key) => (
@@ -55,7 +53,10 @@ const makeAst = (contentBefore, contentAfter) => {
   return keys.map((key) => {
     const { type, process } = getKeyType(contentBefore, contentAfter, key);
     const value = process(contentBefore[key], contentAfter[key], makeAst);
-    return { name: key, type, value };
+    const valuePrevious = contentBefore[key] || '-';
+    return {
+      name: key, type, value, valuePrevious,
+    };
   });
 };
 
