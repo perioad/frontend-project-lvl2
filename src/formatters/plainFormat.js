@@ -1,27 +1,27 @@
-const toProperView = (value) => {
+const stringify = (valueAfter) => {
   const valueTypes = {
-    boolean: value,
-    string: `'${value}'`,
-    number: value,
+    boolean: valueAfter,
+    string: `'${valueAfter}'`,
+    number: valueAfter,
     object: '[complex value]',
   };
 
-  return valueTypes[typeof value];
+  return valueTypes[typeof valueAfter];
 };
 
 const keysTypes = {
 
   nested: (children, name, path, func) => `${func(children, path)}`,
 
-  changed: (value, name, path, func, valuePrevious) => (
-    `Property '${path.join('.')}' was updated. From ${toProperView(valuePrevious)} to ${toProperView(value)}`
+  changed: (valueAfter, name, path, func, valueBefore) => (
+    `Property '${path.join('.')}' was updated. From ${stringify(valueBefore)} to ${stringify(valueAfter)}`
   ),
 
-  deleted: (value, name, path) => `Property '${path.join('.')}' was removed`,
+  deleted: (valueAfter, name, path) => `Property '${path.join('.')}' was removed`,
 
-  added: (value, name, path) => `Property '${path.join('.')}' was added with value: ${toProperView(value)}`,
+  added: (valueAfter, name, path) => `Property '${path.join('.')}' was added with value: ${stringify(valueAfter)}`,
 
-  same: () => '',
+  same: () => null,
 
 };
 
@@ -30,12 +30,12 @@ const plainFormat = (data, path = '') => data.map((key) => {
   const {
     name,
     type,
-    value,
-    valuePrevious,
+    valueAfter,
+    valueBefore,
   } = key;
   const currentPath = [...path, name];
-  const string = keysTypes[type](value, name, currentPath, plainFormat, valuePrevious);
+  const string = keysTypes[type](valueAfter, name, currentPath, plainFormat, valueBefore);
   return string;
-}).filter(string => string !== '').join('\n');
+}).filter(string => string !== null).join('\n');
 
 export default plainFormat;

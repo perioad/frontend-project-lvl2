@@ -32,7 +32,7 @@ const keysTypes = [
       && !_.has(contentAfter, key)
     ),
     type: 'deleted',
-    process: valueBefore => valueBefore,
+    process: () => null,
   },
   {
     check: (contentBefore, contentAfter, key) => (
@@ -52,10 +52,10 @@ const makeAst = (contentBefore, contentAfter) => {
   const keys = _.union(Object.keys(contentBefore), Object.keys(contentAfter));
   return keys.map((key) => {
     const { type, process } = getKeyType(contentBefore, contentAfter, key);
-    const value = process(contentBefore[key], contentAfter[key], makeAst);
-    const valuePrevious = contentBefore[key] || '-';
+    const valueAfter = process(contentBefore[key], contentAfter[key], makeAst);
+    const valueBefore = contentBefore[key] || null;
     return {
-      name: key, type, value, valuePrevious,
+      name: key, type, valueAfter, valueBefore,
     };
   });
 };
