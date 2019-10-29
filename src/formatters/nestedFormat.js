@@ -37,7 +37,11 @@ const render = (ast, depthLevel = 0) => `{\n${ast.map((key) => {
     children,
   } = key;
   const nextDepthLevel = depthLevel + 1;
+<<<<<<< HEAD
   const string = keysTypes[type](valueAfter, valueBefore, name, nextDepthLevel, render, children);
+=======
+  const string = keysTypes[type](valueAfter, valueBefore, name, nextDepthLevel, render, children );
+>>>>>>> dff4d3df151b67bd52ef88eef429ad9364fd3247
   return string;
 }).join('\n')}\n${indent.repeat(depthLevel)}}`;
 
