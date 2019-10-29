@@ -1,3 +1,1 @@
-const jsonFormat = ast => JSON.stringify(ast);
-
-export default jsonFormat;
+export default JSON.stringify;
