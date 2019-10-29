@@ -11,15 +11,15 @@ const stringify = (valueAfter) => {
 
 const keysTypes = {
 
-  nested: (children, name, path, func) => `${func(children, path)}`,
+  nested: (path, valueAfter, valueBefore, func, children) => `${func(children, path)}`,
 
-  changed: (valueAfter, name, path, func, valueBefore) => (
+  changed: (path, valueAfter, valueBefore) => (
     `Property '${path.join('.')}' was updated. From ${stringify(valueBefore)} to ${stringify(valueAfter)}`
   ),
 
-  deleted: (valueAfter, name, path) => `Property '${path.join('.')}' was removed`,
+  deleted: path => `Property '${path.join('.')}' was removed`,
 
-  added: (valueAfter, name, path) => `Property '${path.join('.')}' was added with value: ${stringify(valueAfter)}`,
+  added: (path, valueAfter) => `Property '${path.join('.')}' was added with value: ${stringify(valueAfter)}`,
 
   same: () => null,
 
@@ -32,9 +32,10 @@ const plainFormat = (data, path = '') => data.map((key) => {
     type,
     valueAfter,
     valueBefore,
+    children,
   } = key;
   const currentPath = [...path, name];
-  const string = keysTypes[type](valueAfter, name, currentPath, plainFormat, valueBefore);
+  const string = keysTypes[type](currentPath, valueAfter, valueBefore, plainFormat, children);
   return string;
 }).filter(string => string !== null).join('\n');
 
