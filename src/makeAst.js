@@ -6,8 +6,7 @@ const keysTypes = [
       contentBefore[key] instanceof Object && contentAfter[key] instanceof Object
     ),
     type: 'nested',
-    processChildren: (childrenBefore, childrenAfter, func) => func(childrenBefore, childrenAfter),
-    processValueAfter: _.identity,
+    processValueAfter: (childrenAfter, childrenBefore, func) => func(childrenBefore, childrenAfter),
     processValueBefore: _.identity,
   },
   {
@@ -17,7 +16,6 @@ const keysTypes = [
       && contentBefore[key] === contentAfter[key]
     ),
     type: 'same',
-    processChildren: () => [],
     processValueAfter: _.identity,
     processValueBefore: _.identity,
   },
@@ -28,7 +26,6 @@ const keysTypes = [
       && contentBefore[key] !== contentAfter[key]
     ),
     type: 'changed',
-    processChildren: () => [],
     processValueAfter: _.identity,
     processValueBefore: _.identity,
   },
@@ -38,7 +35,6 @@ const keysTypes = [
       && !_.has(contentAfter, key)
     ),
     type: 'deleted',
-    processChildren: () => [],
     processValueAfter: () => null,
     processValueBefore: _.identity,
   },
@@ -48,7 +44,6 @@ const keysTypes = [
       && _.has(contentAfter, key)
     ),
     type: 'added',
-    processChildren: () => [],
     processValueAfter: _.identity,
     processValueBefore: () => null,
   },
@@ -62,15 +57,15 @@ const makeAst = (contentBefore, contentAfter) => {
   const keys = _.union(Object.keys(contentBefore), Object.keys(contentAfter));
   return keys.map((key) => {
     const {
-      type, processChildren, processValueAfter, processValueBefore,
+      type, processValueAfter, processValueBefore,
     } = (
       getKeyType(contentBefore, contentAfter, key)
     );
-    const children = processChildren(contentBefore[key], contentAfter[key], makeAst);
-    const valueAfter = processValueAfter(contentAfter[key]);
+    const valueAfter = processValueAfter(contentAfter[key], contentBefore[key], makeAst);
     const valueBefore = processValueBefore(contentBefore[key]);
+    const valueOrChildren = type === 'nested' ? 'children' : 'valueAfter';
     return {
-      name: key, type, valueAfter, valueBefore, children,
+      name: key, type, [valueOrChildren]: valueAfter, valueBefore,
     };
   });
 };
