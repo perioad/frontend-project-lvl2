@@ -6,8 +6,9 @@ const keysTypes = [
       contentBefore[key] instanceof Object && contentAfter[key] instanceof Object
     ),
     type: 'nested',
-    processValueAfter: (childrenAfter, childrenBefore, func) => func(childrenBefore, childrenAfter),
-    processValueBefore: _.identity,
+    process: (childrenAfter, childrenBefore, func) => (
+      { children: func(childrenBefore, childrenAfter) }
+    ),
   },
   {
     check: (contentBefore, contentAfter, key) => (
@@ -16,8 +17,7 @@ const keysTypes = [
       && contentBefore[key] === contentAfter[key]
     ),
     type: 'same',
-    processValueAfter: _.identity,
-    processValueBefore: _.identity,
+    process: (after, before) => ({ valueAfter: after, valueBefore: before }),
   },
   {
     check: (contentBefore, contentAfter, key) => (
@@ -26,8 +26,7 @@ const keysTypes = [
       && contentBefore[key] !== contentAfter[key]
     ),
     type: 'changed',
-    processValueAfter: _.identity,
-    processValueBefore: _.identity,
+    process: (after, before) => ({ valueAfter: after, valueBefore: before }),
   },
   {
     check: (contentBefore, contentAfter, key) => (
@@ -35,8 +34,7 @@ const keysTypes = [
       && !_.has(contentAfter, key)
     ),
     type: 'deleted',
-    processValueAfter: () => null,
-    processValueBefore: _.identity,
+    process: (after, before) => ({ valueAfter: null, valueBefore: before }),
   },
   {
     check: (contentBefore, contentAfter, key) => (
@@ -44,8 +42,7 @@ const keysTypes = [
       && _.has(contentAfter, key)
     ),
     type: 'added',
-    processValueAfter: _.identity,
-    processValueBefore: () => null,
+    process: after => ({ valueAfter: after, valueBefore: null }),
   },
 ];
 
@@ -57,15 +54,13 @@ const makeAst = (contentBefore, contentAfter) => {
   const keys = _.union(Object.keys(contentBefore), Object.keys(contentAfter));
   return keys.map((key) => {
     const {
-      type, processValueAfter, processValueBefore,
+      type, process,
     } = (
       getKeyType(contentBefore, contentAfter, key)
     );
-    const valueAfter = processValueAfter(contentAfter[key], contentBefore[key], makeAst);
-    const valueBefore = processValueBefore(contentBefore[key]);
-    const valueOrChildren = type === 'nested' ? 'children' : 'valueAfter';
+    const value = process(contentAfter[key], contentBefore[key], makeAst);
     return {
-      name: key, type, [valueOrChildren]: valueAfter, valueBefore,
+      name: key, type, ...value,
     };
   });
 };
