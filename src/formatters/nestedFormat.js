@@ -28,17 +28,22 @@ const keysTypes = {
 
 };
 
-const render = (ast, depthLevel = 0) => `{\n${ast.map((key) => {
-  const {
-    name,
-    type,
-    valueAfter,
-    valueBefore,
-    children,
-  } = key;
-  const nextDepthLevel = depthLevel + 1;
-  const string = keysTypes[type](valueAfter, valueBefore, name, nextDepthLevel, render, children);
-  return string;
-}).join('\n')}\n${indent.repeat(depthLevel)}}`;
+const render = (ast, depthLevel = 0) => {
+  const mappedDiffs = ast.map((key) => {
+    const {
+      name,
+      type,
+      valueAfter,
+      valueBefore,
+      children,
+    } = key;
+    const nextDepthLevel = depthLevel + 1;
+    const string = keysTypes[type](valueAfter, valueBefore, name, nextDepthLevel, render, children);
+    return string;
+  });
+  const mergedDiffs = mappedDiffs.join('\n');
+  const addedOuterCurlyBraces = `{\n${mergedDiffs}\n${indent.repeat(depthLevel)}}`;
+  return addedOuterCurlyBraces;
+};
 
 export default render;

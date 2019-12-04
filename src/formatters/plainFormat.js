@@ -26,17 +26,22 @@ const keysTypes = {
 };
 
 
-const plainFormat = (data, path = '') => data.map((key) => {
-  const {
-    name,
-    type,
-    valueAfter,
-    valueBefore,
-    children,
-  } = key;
-  const currentPath = [...path, name];
-  const string = keysTypes[type](currentPath, valueAfter, valueBefore, plainFormat, children);
-  return string;
-}).filter(string => string !== null).join('\n');
+const plainFormat = (ast, path = '') => {
+  const mappedDiffs = ast.map((key) => {
+    const {
+      name,
+      type,
+      valueAfter,
+      valueBefore,
+      children,
+    } = key;
+    const currentPath = [...path, name];
+    const string = keysTypes[type](currentPath, valueAfter, valueBefore, plainFormat, children);
+    return string;
+  });
+  const reducedFromEmptyStrings = mappedDiffs.filter(string => string !== null);
+  const mergedDiffs = reducedFromEmptyStrings.join('\n');
+  return mergedDiffs;
+};
 
 export default plainFormat;

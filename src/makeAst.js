@@ -34,7 +34,7 @@ const keysTypes = [
       && !_.has(contentAfter, key)
     ),
     type: 'deleted',
-    process: (after, before) => ({ valueAfter: null, valueBefore: before }),
+    process: (after, before) => ({ valueBefore: before }),
   },
   {
     check: (contentBefore, contentAfter, key) => (
@@ -42,7 +42,7 @@ const keysTypes = [
       && _.has(contentAfter, key)
     ),
     type: 'added',
-    process: after => ({ valueAfter: after, valueBefore: null }),
+    process: after => ({ valueAfter: after }),
   },
 ];
 
@@ -58,9 +58,9 @@ const makeAst = (contentBefore, contentAfter) => {
     } = (
       getKeyType(contentBefore, contentAfter, key)
     );
-    const value = process(contentAfter[key], contentBefore[key], makeAst);
+    const childrenOrValues = process(contentAfter[key], contentBefore[key], makeAst);
     return {
-      name: key, type, ...value,
+      name: key, type, ...childrenOrValues,
     };
   });
 };
